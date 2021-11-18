@@ -6,13 +6,15 @@ import Main.Model.Student;
 import Main.Model.Teacher;
 import Main.Repository.CourseRepository;
 import Main.Repository.StudentRepository;
+import Main.Repository.TeacherRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 	// write your code here
         Teacher t = new Teacher("fN","lN",new ArrayList(),1);
         /*
@@ -30,6 +32,8 @@ public class Main {
         Student s2 = new Student("name1","name1",2,40,new ArrayList());
         Student s3 = new Student("name2","name2",3,15,new ArrayList());
 
+        TeacherRepository tr = new TeacherRepository();
+        tr.create(t);
         CourseRepository cr = new CourseRepository();
         cr.create(c1);
         cr.create(c2);
@@ -43,5 +47,7 @@ public class Main {
         System.out.println(cont.SortStudents());
         System.out.println(cont.FilterCourses(25));
         System.out.println(cont.FilterStudents(25));
+        sr.close();
+        tr.close();
     }
 }

@@ -2,8 +2,17 @@ package Main.Repository;
 
 import Main.Model.Student;
 import Main.Model.Teacher;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
-public class TeacherRepository extends InMemoryRepository<Teacher>{
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+
+public class TeacherRepository extends InMemoryRepository<Teacher> implements FileRepository{
 
 
     /**
@@ -29,5 +38,40 @@ public class TeacherRepository extends InMemoryRepository<Teacher>{
         teacherToUpdate.setLastName(obj.getLastName());
 
         return teacherToUpdate;
+    }
+
+    @Override
+    public List readFromFile() throws FileNotFoundException {
+        return null;
+    }
+
+    @Override
+    public void writeToFile() {
+
+    }
+
+    @Override
+    public Object findOne(int Id) {
+        return null;
+    }
+
+    @Override
+    public void close() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
+
+        String serializedTeacher = "";
+
+        for (Teacher t : repoList){
+            objectMapper.registerModule(new SimpleModule().addSerializer(Teacher.class, new TeacherSerializer()));
+
+            serializedTeacher += objectMapper.writeValueAsString(t);
+
+            serializedTeacher += ",";
+
+            writer.writeValue(new File("StudentData.json"),serializedTeacher);
+
+        }
     }
 }
