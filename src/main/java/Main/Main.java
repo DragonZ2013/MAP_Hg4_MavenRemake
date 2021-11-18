@@ -49,5 +49,6 @@ public class Main {
         System.out.println(cont.FilterStudents(25));
         sr.close();
         tr.close();
+        cr.close();
     }
 }
