@@ -1,6 +1,9 @@
 package Main.Repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public interface FileRepository<T> {
@@ -11,5 +14,5 @@ public interface FileRepository<T> {
 
     T findOne(int Id);
 
-    void close();
+    void close() throws IOException;
 }

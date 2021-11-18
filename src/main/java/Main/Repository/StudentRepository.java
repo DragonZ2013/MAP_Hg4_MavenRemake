@@ -1,11 +1,13 @@
 package Main.Repository;
 
 import Main.Model.Student;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.List;
 
 public class StudentRepository extends InMemoryRepository<Student> implements FileRepository{
@@ -52,9 +54,24 @@ public class StudentRepository extends InMemoryRepository<Student> implements Fi
     }
 
     @Override
-    public void close(){
+    public void close() throws IOException {
 
+        ObjectMapper objectMapper = new ObjectMapper();
 
+        ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
+
+        String serializedStudent = "";
+
+        for (Student s : repoList){
+            objectMapper.registerModule(new SimpleModule().addSerializer(Student.class, new StudentSerializer()));
+
+            serializedStudent += objectMapper.writeValueAsString(s);
+
+            serializedStudent += ",";
+
+            writer.writeValue(new File("StudentData.json"),serializedStudent);
+
+        }
 
     }
 }
