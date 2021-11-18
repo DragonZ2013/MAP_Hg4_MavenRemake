@@ -10,4 +10,6 @@ public interface FileRepository<T> {
     void writeToFile();
 
     T findOne(int Id);
+
+    void close();
 }
