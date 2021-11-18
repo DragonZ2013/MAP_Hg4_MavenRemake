@@ -7,15 +7,16 @@ import Main.Repository.CourseRepository;
 import Main.Repository.StudentRepository;
 import Main.Repository.TeacherRepository;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 
 public class Controller {
-    CourseRepository cr = new CourseRepository();
     TeacherRepository tr = new TeacherRepository();
+    CourseRepository cr = new CourseRepository(tr);
     StudentRepository sr = new StudentRepository();
 
-    public Controller(CourseRepository cr, TeacherRepository tr, StudentRepository sr) {
+    public Controller(CourseRepository cr, TeacherRepository tr, StudentRepository sr) throws IOException {
         this.cr = cr;
         this.tr = tr;
         this.sr = sr;

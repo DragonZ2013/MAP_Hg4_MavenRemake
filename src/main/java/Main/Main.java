@@ -14,6 +14,9 @@ import java.util.List;
 
 public class Main {
 
+    /**
+     * !!! REPOSITORIES MUST BE LOADED IN ORDER: TEACHER -> COURSE -> STUDENT
+     */
     public static void main(String[] args) throws IOException {
 	// write your code here
         Teacher t = new Teacher("fN","lN",new ArrayList(),1);
@@ -25,19 +28,19 @@ public class Main {
         System.out.println(t);
         System.out.println(c);
 */
-        Course c1 = new Course("name1",t,5,new ArrayList(),20,1);
+        /*Course c1 = new Course("name1",t,5,new ArrayList(),20,1);
         Course c2 = new Course("name2",t,5,new ArrayList(),45,1);
-        Course c3 = new Course("name3",t,5,new ArrayList(),10,1);
+        Course c3 = new Course("name3",t,5,new ArrayList(),10,1);*/
         Student s1 = new Student("name3","name3",1,20,new ArrayList());
         Student s2 = new Student("name1","name1",2,40,new ArrayList());
         Student s3 = new Student("name2","name2",3,15,new ArrayList());
 
         TeacherRepository tr = new TeacherRepository();
         tr.create(t);
-        CourseRepository cr = new CourseRepository();
-        cr.create(c1);
+        CourseRepository cr = new CourseRepository(tr);
+        /*cr.create(c1);
         cr.create(c2);
-        cr.create(c3);
+        cr.create(c3);*/
         StudentRepository sr = new StudentRepository();
         sr.create(s1);
         sr.create(s2);

@@ -3,13 +3,13 @@ package Main.Repository;
 import Main.Model.Course;
 import Main.Model.Teacher;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseRepository extends InMemoryRepository<Course> implements FileRepository{
@@ -17,8 +17,37 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
     /**
      * Constructor for CourseRepository objects
      */
-    public CourseRepository() {
+    public CourseRepository(TeacherRepository teacherRepository) throws IOException {
         super();
+        /*
+        BufferedReader fixReader = new BufferedReader(new FileReader("courseData.json"));
+
+        String line = fixReader.readLine().replace("\\","");
+
+        fixReader.close();
+
+        StringBuilder stringBuilder = new StringBuilder(line);
+        stringBuilder.replace(0,1,"[");
+        stringBuilder.replace(line.length()-2,line.length(),"]");
+
+        BufferedWriter fixWriter = new BufferedWriter(new FileWriter("courseData.json"));
+
+        fixWriter.write(stringBuilder.toString());
+        fixWriter.close();
+        */
+        Reader courseReader = new BufferedReader(new FileReader("courseData.json"));
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode parser = objectMapper.readTree(courseReader);
+
+        for (JsonNode n: parser ){
+            Teacher tempTeacher = null;
+            int teacherId = n.path("teacherId").asInt();
+            for(Teacher t: teacherRepository.getAll())
+                if(t.getTeacherId()==teacherId)
+                    tempTeacher=t;
+            Course c = new Course(n.path("name").asText(),tempTeacher,n.path("maxEnrollment").asInt(),new ArrayList(),n.path("credits").asInt(),n.path("courseId").asInt());
+
+        }
     }
 
     /**

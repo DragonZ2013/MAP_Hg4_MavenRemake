@@ -1,3 +1,4 @@
+/*
 package Main.Model;
 
 import Main.Repository.CourseRepository;
@@ -13,10 +14,10 @@ public class RegistrationSystem {
     TeacherRepository tr = new TeacherRepository();
     StudentRepository sr = new StudentRepository();
 
-    /**
+    */
+/**
      * getter for cr
      * @return CourseRepository
-     */
     public CourseRepository getCr() {
         return cr;
     }
@@ -24,50 +25,61 @@ public class RegistrationSystem {
     /**
      * setter for cr
      * @param cr
-     */
+     *//*
+
     public void setCr(CourseRepository cr) {
         this.cr = cr;
     }
 
-    /**
+    */
+/**
      * getter for tr
      * @return TeacherRepository
-     */
+     *//*
+
     public TeacherRepository getTr() {
         return tr;
     }
 
-    /**
+    */
+/**
      * setter for tr
      * @param tr
-     */
+     *//*
+
     public void setTr(TeacherRepository tr) {
         this.tr = tr;
     }
 
-    /**
+    */
+/**
      * getter for sr
      * @return StudentRepository
-     */
+     *//*
+
     public StudentRepository getSr() {
         return sr;
     }
 
-    /**
+    */
+/**
      * setter for sr
      * @param sr
-     */
+     *//*
+
     public void setSr(StudentRepository sr) {
         this.sr = sr;
     }
 
 
-    /**
+    */
+/**
      * registers a student to a given course, updating credits and respective Lists
      * @param course
      * @param student
      * @return true on success, false on failure
-     */
+     *//*
+
     boolean register (Course course, Student student){
         if(course.getMaxEnrollment()>course.getStudentsEnrolled().size()){
             List<Student> courseEnrolled = course.getStudentsEnrolled();
@@ -85,10 +97,12 @@ public class RegistrationSystem {
             return false;
     }
 
-    /**
+    */
+/**
      * returns the courses which have more spots than occupied places (have empty places)
      * @return List<Course>
-     */
+     *//*
+
     List<Course> retrieveCoursesWithFreePlaces(){
         List<Course> retList = new ArrayList<>();
         List<Course> allList = cr.getAll();
@@ -99,22 +113,28 @@ public class RegistrationSystem {
         return retList;
     }
 
-    /**
+    */
+/**
      * returns all the students registered to a particular Course
      * @param course
      * @return List<Student>
-     */
+     *//*
+
     List<Student> retrieveStudentsEnrolledForACourse(Course course){
         return course.getStudentsEnrolled();
     }
 
-    /**
+    */
+/**
      * returns all of the Courses
      * @return List<Course>
-     */
+     *//*
+
     List<Course> getAllCourses()
     {
         return cr.getAll();
     }
 
 }
+
+*/
