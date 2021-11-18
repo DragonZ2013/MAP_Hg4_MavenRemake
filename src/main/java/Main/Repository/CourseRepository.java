@@ -19,7 +19,7 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
      */
     public CourseRepository(TeacherRepository teacherRepository) throws IOException {
         super();
-        /*
+
         BufferedReader fixReader = new BufferedReader(new FileReader("courseData.json"));
 
         String line = fixReader.readLine().replace("\\","");
@@ -34,20 +34,20 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
 
         fixWriter.write(stringBuilder.toString());
         fixWriter.close();
-        */
         Reader courseReader = new BufferedReader(new FileReader("courseData.json"));
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode parser = objectMapper.readTree(courseReader);
 
         for (JsonNode n: parser ){
             Teacher tempTeacher = null;
-            int teacherId = n.path("teacherId").asInt();
+            int teacherId = n.path("teacher").asInt();
             for(Teacher t: teacherRepository.getAll())
                 if(t.getTeacherId()==teacherId)
                     tempTeacher=t;
             Course c = new Course(n.path("name").asText(),tempTeacher,n.path("maxEnrollment").asInt(),new ArrayList(),n.path("credits").asInt(),n.path("courseId").asInt());
-
+            this.create(c);
         }
+        this.close();
     }
 
     /**
