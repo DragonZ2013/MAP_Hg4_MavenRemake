@@ -70,7 +70,7 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
 
             serializedTeacher += ",";
 
-            writer.writeValue(new File("StudentData.json"),serializedTeacher);
+            writer.writeValue(new File("TeacherData.json"),serializedTeacher);
 
         }
     }
