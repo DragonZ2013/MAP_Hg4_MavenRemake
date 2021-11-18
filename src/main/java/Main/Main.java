@@ -36,7 +36,7 @@ public class Main {
         Student s3 = new Student("name2","name2",3,15,new ArrayList());
 
         TeacherRepository tr = new TeacherRepository();
-        tr.create(t);
+        //tr.create(t);
         CourseRepository cr = new CourseRepository(tr);
         System.out.println(cr.getAll());
         /*cr.create(c1);
@@ -46,11 +46,11 @@ public class Main {
         sr.create(s1);
         sr.create(s2);
         sr.create(s3);
-        /*Controller cont = new Controller(cr,null,sr);
+        Controller cont = new Controller(cr,null,sr);
         System.out.println(cont.SortCourses());
         System.out.println(cont.SortStudents());
         System.out.println(cont.FilterCourses(25));
-        System.out.println(cont.FilterStudents(25));*/
+        System.out.println(cont.FilterStudents(25));
         sr.close();
         tr.close();
         cr.close();

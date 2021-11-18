@@ -1,15 +1,16 @@
 package Main.Repository;
 
+import Main.Model.Course;
 import Main.Model.Student;
 import Main.Model.Teacher;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherRepository extends InMemoryRepository<Teacher> implements FileRepository{
@@ -18,8 +19,34 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
     /**
      * Constructor for TeacherRepository Objects
      */
-    public TeacherRepository() {
+    public TeacherRepository() throws IOException {
         super();
+
+        BufferedReader fixReader = new BufferedReader(new FileReader("teacherData.json"));
+
+        String line = fixReader.readLine().replace("\\","");
+
+        fixReader.close();
+
+        StringBuilder stringBuilder = new StringBuilder(line);
+        stringBuilder.replace(0,1,"[");
+        stringBuilder.replace(line.length()-2,line.length(),"]");
+
+        BufferedWriter fixWriter = new BufferedWriter(new FileWriter("teacherData.json"));
+
+        fixWriter.write(stringBuilder.toString());
+        fixWriter.close();
+
+        Reader teacherReader = new BufferedReader(new FileReader("teacherData.json"));
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode parser = objectMapper.readTree(teacherReader);
+
+        for (JsonNode n: parser ){
+            Teacher t = new Teacher(n.path("firstName").asText(),n.path("lastName").asText(),new ArrayList(),n.path("teacherId").asInt());
+            this.create(t);
+        }
+        this.close();
+
     }
 
     /**
