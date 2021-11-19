@@ -29,7 +29,7 @@ public class Controller {
         for(Teacher t: tr.getAll())
             if(t.getTeacherId()==teacherId)
                 throw new ExistentIdException("Teacher Id is already in array");
-        Teacher t = new Teacher(firstName,lastName,new ArrayList(),teacherId);
+        Teacher t = new Teacher(firstName,lastName,new ArrayList<>(),teacherId);
         tr.create(t);
     }
 
@@ -37,7 +37,7 @@ public class Controller {
         for(Student s: sr.getAll())
             if(s.getStudentId()==studentId)
                 throw new ExistentIdException("Student Id is already in array");
-        Student s = new Student(firstName,lastName,studentId,totalCredits,new ArrayList());
+        Student s = new Student(firstName,lastName,studentId,totalCredits,new ArrayList<>());
         sr.create(s);
 
     }
@@ -53,13 +53,16 @@ public class Controller {
         if(teacher==null)
             throw new MissingIdException("Teacher with given Id doesn't exist");
 
-        Course c = new Course(name,teacher,maxEnrollment,new ArrayList(),credits,courseId);
+        Course c = new Course(name,teacher,maxEnrollment,new ArrayList<>(),credits,courseId);
+
         cr.create(c);
+        teacher.getCourses().add(c);
+        tr.update(teacher);
     }
 
 
     public void updateTeacher(String firstName,String lastName,int teacherId) throws MissingIdException {
-        Teacher teacher = null
+        Teacher teacher = null;
         for(Teacher t: tr.getAll())
             if(t.getTeacherId()==teacherId)
                 teacher = t;
@@ -74,6 +77,7 @@ public class Controller {
         for(Student s: sr.getAll())
             if(s.getStudentId()==studentId)
                 student = s;
+        assert student != null;
         Student s = new Student(firstName,lastName,studentId,totalCredits,student.getEnrolledCourses());
         sr.update(s);
 
@@ -90,8 +94,14 @@ public class Controller {
                 teacher=t;
         if(teacher==null)
             throw new MissingIdException("Teacher with given Id doesn't exist");
-        Course c = new Course(name,teacher,maxEnrollment,new ArrayList(),credits,courseId);
-        cr.create(c);
+        Teacher t = course.getTeacher();
+        t.getCourses().removeIf(teach->teach.getCourseId()==courseId);
+        tr.update(t);
+        Course c = new Course(name,teacher,maxEnrollment,new ArrayList<>(),credits,courseId);
+        teacher.getCourses().add(course);
+        Teacher teacherRet = new Teacher(teacher.getFirstName(),teacher.getLastName(),teacher.getCourses(),teacherId);
+        tr.update(teacherRet);
+        cr.update(c);
     }
 
     public CourseRepository getCr() {
