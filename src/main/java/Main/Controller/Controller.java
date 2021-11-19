@@ -16,9 +16,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Controller {
-    TeacherRepository tr;
-    CourseRepository cr;
-    StudentRepository sr;
+    private TeacherRepository tr;
+    private CourseRepository cr;
+    private StudentRepository sr;
 
     /**
      * Constructor for controller objects

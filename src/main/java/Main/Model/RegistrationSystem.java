@@ -1,4 +1,4 @@
-/**!!!DEPRECATED, constructors updated to file repo, class unmentained!!!*/
+/**!!!DEPRECATED, constructors updated to file repo, class unmaintained!!!*/
 /*package Main.Model;
 
 import Main.Repository.CourseRepository;

@@ -211,7 +211,6 @@ class ControllerTest {
         StudentRepository sr = new StudentRepository(cr,"StudentDataTest.json");
         Controller controller = new Controller(cr,tr,sr);
         List<Student> sortedStudentList= controller.SortStudents();
-        System.out.println(sortedStudentList);
         assert(sortedStudentList.get(0).getStudentId()==2);
         assert(sortedStudentList.get(1).getStudentId()==3);
         assert(sortedStudentList.get(2).getStudentId()==1);

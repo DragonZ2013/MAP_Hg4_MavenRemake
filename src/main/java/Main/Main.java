@@ -1,12 +1,14 @@
 package Main;
 
 import Main.Controller.Controller;
+import Main.Exceptions.ExistentIdException;
 import Main.Model.Course;
 import Main.Model.Student;
 import Main.Model.Teacher;
 import Main.Repository.CourseRepository;
 import Main.Repository.StudentRepository;
 import Main.Repository.TeacherRepository;
+import Main.UI.ConsoleView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class Main {
     /**
      * !!! REPOSITORIES MUST BE LOADED IN ORDER: TEACHER -> COURSE -> STUDENT
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ExistentIdException {
 	// write your code here
         Teacher t = new Teacher("fN","lN",new ArrayList(),1);
         /*
@@ -55,11 +57,13 @@ public class Main {
         sr.create(s3);
         s3.getEnrolledCourses().add(c3);
         sr.update(s3);*/
-        Controller cont = new Controller(cr,null,sr);
+        Controller cont = new Controller(cr,tr,sr);
         System.out.println(cont.SortCourses());
         System.out.println(cont.SortStudents());
         System.out.println(cont.FilterCourses(25).size());
         System.out.println(cont.FilterStudents(25).size());
+        ConsoleView cw = new ConsoleView(cont);
+        cw.Run();
         sr.close("StudentData.json");
         tr.close("TeacherData.json");
         cr.close("CourseData.json");
