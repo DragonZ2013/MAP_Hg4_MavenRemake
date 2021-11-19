@@ -1,5 +1,5 @@
-/*
-package Main.Model;
+/**!!!DEPRECATED, constructors updated to file repo, class unmentained!!!*/
+/*package Main.Model;
 
 import Main.Repository.CourseRepository;
 import Main.Repository.StudentRepository;
