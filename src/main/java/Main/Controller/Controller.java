@@ -121,12 +121,31 @@ public class Controller {
         cr.delete(course);
     }
 
-    public void deleteTeacher(){
-
+    public void deleteTeacher(int teacherId) throws MissingIdException {
+        Teacher teacher = null;
+        for(Teacher t: tr.getAll())
+            if(t.getTeacherId()==teacherId)
+                teacher = t;
+        if(teacher == null)
+            throw new MissingIdException("Teacher with given Id doesn't exist");
+        for(Course c:teacher.getCourses())
+            this.deleteCourse(c.getCourseId());
+        tr.delete(teacher);
     }
 
-    public void deleteStudent(){
+    public void deleteStudent(int studentId) throws MissingIdException {
+        Student student = null;
+        for(Student s: sr.getAll())
+            if(s.getStudentId()==studentId)
+                student = s;
+        if(student==null)
+            throw new MissingIdException("Student with given Id doesn't exist");
+        for(Course c:student.getEnrolledCourses()){
+            c.getStudentsEnrolled().removeIf(o->o.getStudentId()==studentId);
+            cr.update(c);
+        }
 
+        sr.delete(student);
     }
     public CourseRepository getCr() {
         return cr;
