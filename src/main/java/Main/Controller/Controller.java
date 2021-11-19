@@ -85,7 +85,7 @@ public class Controller {
 
     }
 
-    public void updateCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws MissingIdException {
+    public void updateCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws MissingIdException, MaxSizeException {
         Course course = null;
         for(Course c: cr.getAll())
             if(c.getCourseId()==courseId)
@@ -98,6 +98,8 @@ public class Controller {
                 teacher=t;
         if(teacher==null)
             throw new MissingIdException("Teacher with given Id doesn't exist");
+        if(maxEnrollment<course.getStudentsEnrolled().size())
+            throw new MaxSizeException("Student array has more elements than new Max Enrollment");
         Teacher t = course.getTeacher();
         t.getCourses().removeIf(teach->teach.getCourseId()==courseId);
         tr.update(t);
