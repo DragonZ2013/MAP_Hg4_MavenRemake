@@ -56,6 +56,44 @@ public class Controller {
         Course c = new Course(name,teacher,maxEnrollment,new ArrayList(),credits,courseId);
         cr.create(c);
     }
+
+
+    public void updateTeacher(String firstName,String lastName,int teacherId) throws MissingIdException {
+        Teacher teacher = null
+        for(Teacher t: tr.getAll())
+            if(t.getTeacherId()==teacherId)
+                teacher = t;
+        if(teacher == null)
+            throw new MissingIdException("Teacher with given Id doesn't exist");
+        Teacher t = new Teacher(firstName,lastName,teacher.getCourses(),teacherId);
+        tr.update(t);
+    }
+
+    public void updateStudent(String firstName,String lastName,int studentId,int totalCredits) throws ExistentIdException {
+        Student student = null;
+        for(Student s: sr.getAll())
+            if(s.getStudentId()==studentId)
+                student = s;
+        Student s = new Student(firstName,lastName,studentId,totalCredits,student.getEnrolledCourses());
+        sr.update(s);
+
+    }
+
+    public void updateCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws ExistentIdException, MissingIdException {
+        Course course = null;
+        for(Course c: cr.getAll())
+            if(c.getCourseId()==courseId)
+                course = c;
+        Teacher teacher = null;
+        for(Teacher t:tr.getAll())
+            if(t.getTeacherId()==teacherId)
+                teacher=t;
+        if(teacher==null)
+            throw new MissingIdException("Teacher with given Id doesn't exist");
+        Course c = new Course(name,teacher,maxEnrollment,new ArrayList(),credits,courseId);
+        cr.create(c);
+    }
+
     public CourseRepository getCr() {
         return cr;
     }
@@ -80,21 +118,6 @@ public class Controller {
         this.sr = sr;
     }
 
-    /**WIP - add id validation and exception
-     *
-     * @param s
-     */
-    public void addToStudentRepo(Student s){
-        sr.create(s);
-    }
-
-    public void addToCourseRepo(Course c) {
-        cr.create(c);
-    }
-
-    public  void addToTeacherRepo(Teacher t){
-        tr.create(t);
-    }
 
     /**
      * Returns the list of students sorted by their LastName - WIP - FirstName sorting, thenComparing breaks
