@@ -103,7 +103,7 @@ public class Controller {
         Teacher t = course.getTeacher();
         t.getCourses().removeIf(teach->teach.getCourseId()==courseId);
         tr.update(t);
-        Course c = new Course(name,teacher,maxEnrollment,new ArrayList<>(),credits,courseId);
+        Course c = new Course(name,teacher,maxEnrollment,course.getStudentsEnrolled(),credits,courseId);
         teacher.getCourses().add(course);
         Teacher teacherRet = new Teacher(teacher.getFirstName(),teacher.getLastName(),teacher.getCourses(),teacherId);
         tr.update(teacherRet);

@@ -50,6 +50,11 @@ public class StudentRepository extends InMemoryRepository<Student> implements Fi
                         tempCourses.add(c);
             Student s = new Student(n.path("firstName").asText(),n.path("lastName").asText(),n.path("studentId").asInt(),n.path("totalCredits").asInt(),tempCourses);
             this.create(s);
+            for(Course c:tempCourses)
+            {
+                c.getStudentsEnrolled().add(s);
+                courseRepository.update(c);
+            }
 
         }
         this.close(filename);

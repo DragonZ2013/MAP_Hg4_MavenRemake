@@ -45,6 +45,7 @@ public class Main {
         cr.create(c3);*/
         StudentRepository sr = new StudentRepository(cr,"StudentData.json");
         System.out.println(sr.getAll());
+        System.out.println(cr.getAll());
         /*sr.create(s1);
         s1.getEnrolledCourses().add(c1);
         sr.update(s1);

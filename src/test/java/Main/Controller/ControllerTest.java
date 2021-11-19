@@ -108,8 +108,40 @@ class ControllerTest {
     }
 
     @org.junit.jupiter.api.Test
-    void registerStudent() {
-
+    void registerStudent() throws IOException, MaxSizeException, MissingIdException {
+        TeacherRepository tr = new TeacherRepository("TeacherDataTest.json");
+        CourseRepository cr = new CourseRepository(tr,"CourseDataTest.json");
+        StudentRepository sr = new StudentRepository(cr,"StudentDataTest.json");
+        Controller controller = new Controller(cr,tr,sr);
+        try {
+            controller.registerStudent(6,1);
+            assert(false);
+        }
+        catch (MissingIdException | MaxSizeException e){
+            assert(true);
+        }
+        try {
+            controller.registerStudent(1,7);
+            assert(false);
+        }
+        catch (MissingIdException | MaxSizeException e){
+            assert(true);
+        }
+        controller.updateCourse("NewName",1,1,40,2);
+        try {
+            controller.registerStudent(1,2);
+            assert(false);
+        }
+        catch (MissingIdException | MaxSizeException e){
+            assert(true);
+        }
+        try {
+            controller.registerStudent(1,1);
+            assert(true);
+        }
+        catch (MissingIdException | MaxSizeException e){
+            assert(false);
+        }
     }
 
     @org.junit.jupiter.api.Test
