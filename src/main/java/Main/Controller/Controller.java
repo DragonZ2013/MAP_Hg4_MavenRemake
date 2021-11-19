@@ -1,6 +1,7 @@
 package Main.Controller;
 
 import Main.Exceptions.ExistentIdException;
+import Main.Exceptions.MissingIdException;
 import Main.Model.Course;
 import Main.Model.Student;
 import Main.Model.Teacher;
@@ -37,10 +38,11 @@ public class Controller {
             if(s.getStudentId()==studentId)
                 throw new ExistentIdException("Student Id is already in array");
         Student s = new Student(firstName,lastName,studentId,totalCredits,new ArrayList());
+        sr.create(s);
 
     }
 
-    public void createCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws ExistentIdException {
+    public void createCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws ExistentIdException, MissingIdException {
         for(Course c: cr.getAll())
             if(c.getCourseId()==courseId)
                 throw new ExistentIdException("Course Id is already in array");
@@ -48,8 +50,11 @@ public class Controller {
         for(Teacher t:tr.getAll())
             if(t.getTeacherId()==teacherId)
                 teacher=t;
+        if(teacher==null)
+            throw new MissingIdException("Teacher with given Id doesn't exist");
 
         Course c = new Course(name,teacher,maxEnrollment,new ArrayList(),credits,courseId);
+        cr.create(c);
     }
     public CourseRepository getCr() {
         return cr;
