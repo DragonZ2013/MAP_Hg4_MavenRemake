@@ -1,8 +1,23 @@
 package Main.Controller;
 
+import Main.Repository.CourseRepository;
+import Main.Repository.StudentRepository;
+import Main.Repository.TeacherRepository;
+import org.junit.jupiter.api.BeforeEach;
+
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerTest {
+
+    @BeforeEach
+    void setup() throws IOException {
+        TeacherRepository tr = new TeacherRepository("TeacherDataTest.json");
+        CourseRepository cr = new CourseRepository(tr,"CourseDataTest.json");
+        StudentRepository sr = new StudentRepository(cr,"StudentDataTest.json");
+        Controller controller = new Controller(cr,tr,sr);
+    }
 
     @org.junit.jupiter.api.Test
     void updateTeacher() {

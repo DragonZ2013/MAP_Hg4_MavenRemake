@@ -16,9 +16,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Controller {
-    TeacherRepository tr = new TeacherRepository("TeacherData.json");
-    CourseRepository cr = new CourseRepository(tr,"CourseData.json");
-    StudentRepository sr = new StudentRepository(cr,"StudentData.json");
+    TeacherRepository tr;
+    CourseRepository cr;
+    StudentRepository sr;
 
     public Controller(CourseRepository cr, TeacherRepository tr, StudentRepository sr) throws IOException {
         this.cr = cr;
