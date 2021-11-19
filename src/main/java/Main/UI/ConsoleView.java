@@ -24,7 +24,7 @@ public class ConsoleView {
         String teacherFirstName,teacherLastName,courseName,studentFirstName,studentLastName;
         int teacherId,courseId,studentId,filterParam,continueLoop=1,courseTeacherId,courseMaxEnrollment,courseCredits,studentTotalCredits;
         while(continueLoop==1){
-            System.out.println("1.Create Teacher\n2.Update Teacher\n3.Delete Teacher\n4.Create Course\n5.Update Course\n6.Delete Course\n7.Create Student\n8.Update Student\n9.Delete Student\n10.Register Student\n11.Sort Course\n12.Filter Course\n13.Sort Students\n14.Filter Students\n15.Exit and Save");
+            System.out.println("1.Create Teacher\n2.Update Teacher\n3.Delete Teacher\n4.Create Course\n5.Update Course\n6.Delete Course\n7.Create Student\n8.Update Student\n9.Delete Student\n10.Register Student\n11.Sort Course\n12.Filter Course\n13.Sort Students\n14.Filter Students\n15.Exit");
             String input =scanner.next();
             System.out.println(input);
             switch (input) {
@@ -134,10 +134,10 @@ public class ConsoleView {
                     break;
                 case "15":
                     continueLoop=0;
-                    controller.SaveAll();
                     break;
                 default:
             }
+            controller.SaveAll();
         }
     }
 }
