@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CourseRepository extends InMemoryRepository<Course> implements FileRepository{
 
@@ -46,6 +45,8 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
                     tempTeacher=t;
             Course c = new Course(n.path("name").asText(),tempTeacher,n.path("maxEnrollment").asInt(),new ArrayList(),n.path("credits").asInt(),n.path("courseId").asInt());
             this.create(c);
+            tempTeacher.getCourses().add(c);
+            teacherRepository.update(tempTeacher);
         }
         this.close();
     }
@@ -68,21 +69,6 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
         courseToUpdate.setStudentsEnrolled(obj.getStudentsEnrolled());
 
         return courseToUpdate;
-    }
-
-    @Override
-    public List readFromFile() throws FileNotFoundException {
-        return null;
-    }
-
-    @Override
-    public void writeToFile() {
-
-    }
-
-    @Override
-    public Object findOne(int Id) {
-        return null;
     }
 
     @Override

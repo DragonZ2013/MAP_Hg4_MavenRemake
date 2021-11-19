@@ -1,5 +1,6 @@
 package Main.Controller;
 
+import Main.Exceptions.ExistentIdException;
 import Main.Model.Course;
 import Main.Model.Student;
 import Main.Model.Teacher;
@@ -8,13 +9,14 @@ import Main.Repository.StudentRepository;
 import Main.Repository.TeacherRepository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class Controller {
     TeacherRepository tr = new TeacherRepository();
     CourseRepository cr = new CourseRepository(tr);
-    StudentRepository sr = new StudentRepository();
+    StudentRepository sr = new StudentRepository(cr);
 
     public Controller(CourseRepository cr, TeacherRepository tr, StudentRepository sr) throws IOException {
         this.cr = cr;
@@ -22,6 +24,33 @@ public class Controller {
         this.sr = sr;
     }
 
+    public void createTeacher(String firstName,String lastName,int teacherId) throws ExistentIdException {
+        for(Teacher t: tr.getAll())
+            if(t.getTeacherId()==teacherId)
+                throw new ExistentIdException("Teacher Id is already in array");
+        Teacher t = new Teacher(firstName,lastName,new ArrayList(),teacherId);
+        tr.create(t);
+    }
+
+    public void createStudent(String firstName,String lastName,int studentId,int totalCredits) throws ExistentIdException {
+        for(Student s: sr.getAll())
+            if(s.getStudentId()==studentId)
+                throw new ExistentIdException("Student Id is already in array");
+        Student s = new Student(firstName,lastName,studentId,totalCredits,new ArrayList());
+
+    }
+
+    public void createCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws ExistentIdException {
+        for(Course c: cr.getAll())
+            if(c.getCourseId()==courseId)
+                throw new ExistentIdException("Course Id is already in array");
+        Teacher teacher = null;
+        for(Teacher t:tr.getAll())
+            if(t.getTeacherId()==teacherId)
+                teacher=t;
+
+        Course c = new Course(name,teacher,maxEnrollment,new ArrayList(),credits,courseId);
+    }
     public CourseRepository getCr() {
         return cr;
     }

@@ -1,7 +1,5 @@
 package Main.Repository;
 
-import Main.Model.Course;
-import Main.Model.Student;
 import Main.Model.Teacher;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,7 +9,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TeacherRepository extends InMemoryRepository<Teacher> implements FileRepository{
 
@@ -65,21 +62,6 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
         teacherToUpdate.setLastName(obj.getLastName());
 
         return teacherToUpdate;
-    }
-
-    @Override
-    public List readFromFile() throws FileNotFoundException {
-        return null;
-    }
-
-    @Override
-    public void writeToFile() {
-
-    }
-
-    @Override
-    public Object findOne(int Id) {
-        return null;
     }
 
     @Override
