@@ -72,22 +72,25 @@ public class Controller {
         tr.update(t);
     }
 
-    public void updateStudent(String firstName,String lastName,int studentId,int totalCredits) throws ExistentIdException {
+    public void updateStudent(String firstName,String lastName,int studentId,int totalCredits) throws MissingIdException {
         Student student = null;
         for(Student s: sr.getAll())
             if(s.getStudentId()==studentId)
                 student = s;
-        assert student != null;
+        if(student==null)
+            throw new MissingIdException("Student with given Id doesn't exist");
         Student s = new Student(firstName,lastName,studentId,totalCredits,student.getEnrolledCourses());
         sr.update(s);
 
     }
 
-    public void updateCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws ExistentIdException, MissingIdException {
+    public void updateCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws MissingIdException {
         Course course = null;
         for(Course c: cr.getAll())
             if(c.getCourseId()==courseId)
                 course = c;
+        if(course==null)
+            throw new MissingIdException("Course with given Id doesn't exist");
         Teacher teacher = null;
         for(Teacher t:tr.getAll())
             if(t.getTeacherId()==teacherId)
@@ -104,6 +107,27 @@ public class Controller {
         cr.update(c);
     }
 
+    public void deleteCourse(int courseId) throws MissingIdException {
+        Course course = null;
+        for(Course c: cr.getAll())
+            if(c.getCourseId()==courseId)
+                course = c;
+        if(course==null)
+            throw new MissingIdException("Course with given Id doesn't exist");
+        for(Student s:course.getStudentsEnrolled()){
+            s.getEnrolledCourses().removeIf(o->o.getCourseId()==courseId);
+            sr.update(s);
+        }
+        cr.delete(course);
+    }
+
+    public void deleteTeacher(){
+
+    }
+
+    public void deleteStudent(){
+
+    }
     public CourseRepository getCr() {
         return cr;
     }
