@@ -1,6 +1,7 @@
 package Main.Controller;
 
 import Main.Exceptions.ExistentIdException;
+import Main.Exceptions.MaxSizeException;
 import Main.Exceptions.MissingIdException;
 import Main.Model.Course;
 import Main.Model.Student;
@@ -147,6 +148,31 @@ public class Controller {
 
         sr.delete(student);
     }
+
+    public void registerStudent(int studentId,int courseId) throws MissingIdException, MaxSizeException {
+        Student student = null;
+        for(Student s: sr.getAll())
+            if(s.getStudentId()==studentId)
+                student = s;
+        if(student==null)
+            throw new MissingIdException("Student with given Id doesn't exist");
+        Course course = null;
+        for(Course c: cr.getAll())
+            if(c.getCourseId()==courseId)
+                course = c;
+        if(course==null)
+            throw new MissingIdException("Course with given Id doesn't exist");
+        if(course.getMaxEnrollment()==course.getStudentsEnrolled().size())
+            throw new MaxSizeException("Course already hax maximum number of students enrolled");
+        student.setTotalCredits(student.getTotalCredits()+course.getCredits());
+        student.getEnrolledCourses().add(course);
+        sr.update(student);
+        course.getStudentsEnrolled().add(student);
+        cr.update(course);
+
+
+
+    }
     public CourseRepository getCr() {
         return cr;
     }
@@ -184,13 +210,13 @@ public class Controller {
     }
 
     /**
-     * Returns the list of students with more than minCreds credits
-     * @param minCreds
+     * Returns the list of students with more than minCredits credits
+     * @param minCredits
      * @return retList List<Student>
      */
-    public List<Student> FilterStudents(int minCreds){
+    public List<Student> FilterStudents(int minCredits){
         List<Student> studentList = sr.getAll();
-        List<Student> retList = studentList.stream().filter(o->o.getTotalCredits()>=minCreds).toList();
+        List<Student> retList = studentList.stream().filter(o->o.getTotalCredits()>=minCredits).toList();
 
         return retList;
     }
@@ -210,12 +236,12 @@ public class Controller {
 
     /**
      * Returns the list of courses with more than minCreds credits
-     * @param minCreds
+     * @param minCredits
      * @return retList List<Course>
      */
-    public List<Course> FilterCourses(int minCreds){
+    public List<Course> FilterCourses(int minCredits){
         List<Course> courseList = cr.getAll();
-        List<Course> retList = courseList.stream().filter(o->o.getCredits()>=minCreds).toList();
+        List<Course> retList = courseList.stream().filter(o->o.getCredits()>=minCredits).toList();
 
 
         return retList;
