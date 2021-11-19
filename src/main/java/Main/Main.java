@@ -2,6 +2,7 @@ package Main;
 
 import Main.Controller.Controller;
 import Main.Exceptions.ExistentIdException;
+import Main.Exceptions.MaxSizeException;
 import Main.Exceptions.MissingIdException;
 import Main.Model.Course;
 import Main.Model.Student;
@@ -20,7 +21,7 @@ public class Main {
     /**
      * !!! REPOSITORIES MUST BE LOADED IN ORDER: TEACHER -> COURSE -> STUDENT
      */
-    public static void main(String[] args) throws IOException, ExistentIdException, MissingIdException {
+    public static void main(String[] args) throws IOException, ExistentIdException, MissingIdException, MaxSizeException {
 	// write your code here
         Teacher t = new Teacher("fN","lN",new ArrayList(),1);
         /*
