@@ -98,15 +98,71 @@ class ControllerTest {
     }
 
     @org.junit.jupiter.api.Test
-    void deleteCourse() {
+    void deleteCourse() throws IOException {
+        TeacherRepository tr = new TeacherRepository("TeacherDataTest.json");
+        CourseRepository cr = new CourseRepository(tr,"CourseDataTest.json");
+        StudentRepository sr = new StudentRepository(cr,"StudentDataTest.json");
+        Controller controller = new Controller(cr,tr,sr);
+        try {
+            controller.deleteCourse(5);
+            assert(false);
+        }
+        catch (MissingIdException e){
+            assert(true);
+        }
+        try {
+            controller.deleteStudent(1);
+            assert(true);
+        }
+        catch (MissingIdException e){
+            assert(false);
+        }
     }
 
     @org.junit.jupiter.api.Test
-    void deleteTeacher() {
+    void deleteTeacher() throws IOException {
+        TeacherRepository tr = new TeacherRepository("TeacherDataTest.json");
+        CourseRepository cr = new CourseRepository(tr,"CourseDataTest.json");
+        StudentRepository sr = new StudentRepository(cr,"StudentDataTest.json");
+        Controller controller = new Controller(cr,tr,sr);
+        try {
+            controller.deleteTeacher(2);
+            assert(false);
+        }
+        catch (MissingIdException e){
+            assert(true);
+        }
+        try {
+            controller.deleteTeacher(1);
+            assert(true);
+        }
+        catch (MissingIdException e){
+            assert(false);
+        }
+        assert(controller.getCr().getAll().size()==0);
+
     }
 
     @org.junit.jupiter.api.Test
-    void deleteStudent() {
+    void deleteStudent() throws IOException {
+        TeacherRepository tr = new TeacherRepository("TeacherDataTest.json");
+        CourseRepository cr = new CourseRepository(tr,"CourseDataTest.json");
+        StudentRepository sr = new StudentRepository(cr,"StudentDataTest.json");
+        Controller controller = new Controller(cr,tr,sr);
+        try {
+            controller.deleteStudent(5);
+            assert(false);
+        }
+        catch (MissingIdException e){
+            assert(true);
+        }
+        try {
+            controller.deleteStudent(1);
+            assert(true);
+        }
+        catch (MissingIdException e){
+            assert(false);
+        }
     }
 
     @org.junit.jupiter.api.Test
