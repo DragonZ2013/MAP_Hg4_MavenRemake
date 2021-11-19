@@ -16,7 +16,7 @@ public class ConsoleView {
     }
 
     /**
-     * Primary run function for Console Application - WIP: Exception Handling
+     * Mainloop function for Console Application - WIP: Exception Handling
      * @throws ExistentIdException
      */
     public void Run() throws ExistentIdException, MissingIdException, MaxSizeException, IOException {
@@ -117,12 +117,20 @@ public class ConsoleView {
                     controller.registerStudent(studentId,courseId);
                     break;
                 case "11":
+                    System.out.println(controller.SortCourses());
                     break;
                 case "12":
+                    System.out.println("Give Filter Parameter");
+                    filterParam=Integer.parseInt(scanner.next());
+                    System.out.println(controller.FilterCourses(filterParam));
                     break;
                 case "13":
+                    System.out.println(controller.SortStudents());
                     break;
                 case "14":
+                    System.out.println("Give Filter Parameter");
+                    filterParam=Integer.parseInt(scanner.next());
+                    System.out.println(controller.FilterStudents(filterParam));
                     break;
                 case "15":
                     continueLoop=0;
