@@ -16,10 +16,10 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
     /**
      * Constructor for CourseRepository objects
      */
-    public CourseRepository(TeacherRepository teacherRepository) throws IOException {
+    public CourseRepository(TeacherRepository teacherRepository,String filename) throws IOException {
         super();
 
-        BufferedReader fixReader = new BufferedReader(new FileReader("courseData.json"));
+        BufferedReader fixReader = new BufferedReader(new FileReader(filename));
 
         String line = fixReader.readLine().replace("\\","");
 
@@ -29,11 +29,11 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
         stringBuilder.replace(0,1,"[");
         stringBuilder.replace(line.length()-2,line.length(),"]");
 
-        BufferedWriter fixWriter = new BufferedWriter(new FileWriter("courseData.json"));
+        BufferedWriter fixWriter = new BufferedWriter(new FileWriter(filename));
 
         fixWriter.write(stringBuilder.toString());
         fixWriter.close();
-        Reader courseReader = new BufferedReader(new FileReader("courseData.json"));
+        Reader courseReader = new BufferedReader(new FileReader(filename));
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode parser = objectMapper.readTree(courseReader);
 
@@ -48,7 +48,7 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
             tempTeacher.getCourses().add(c);
             teacherRepository.update(tempTeacher);
         }
-        this.close();
+        this.close(filename);
     }
 
     /**
@@ -72,7 +72,7 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
     }
 
     @Override
-    public void close() throws IOException {
+    public void close(String filename) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
@@ -86,7 +86,7 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
 
             serializedCourse += ",";
 
-            writer.writeValue(new File("CourseData.json"),serializedCourse);
+            writer.writeValue(new File(filename),serializedCourse);
 
         }
 

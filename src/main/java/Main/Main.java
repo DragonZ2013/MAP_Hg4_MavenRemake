@@ -35,15 +35,15 @@ public class Main {
         Student s2 = new Student("name1","name1",2,40,new ArrayList());
         Student s3 = new Student("name2","name2",3,15,new ArrayList());
 
-        TeacherRepository tr = new TeacherRepository();
+        TeacherRepository tr = new TeacherRepository("TeacherData.json");
         System.out.println(tr.getAll());
         //tr.create(t);
-        CourseRepository cr = new CourseRepository(tr);
+        CourseRepository cr = new CourseRepository(tr,"CourseData.json");
         System.out.println(cr.getAll());
         /*cr.create(c1);
         cr.create(c2);
         cr.create(c3);*/
-        StudentRepository sr = new StudentRepository(cr);
+        StudentRepository sr = new StudentRepository(cr,"StudentData.json");
         System.out.println(sr.getAll());
         /*sr.create(s1);
         s1.getEnrolledCourses().add(c1);
@@ -59,8 +59,8 @@ public class Main {
         System.out.println(cont.SortStudents());
         System.out.println(cont.FilterCourses(25));
         System.out.println(cont.FilterStudents(25));
-        sr.close();
-        tr.close();
-        cr.close();
+        sr.close("StudentData.json");
+        tr.close("TeacherData.json");
+        cr.close("CourseData.json");
     }
 }

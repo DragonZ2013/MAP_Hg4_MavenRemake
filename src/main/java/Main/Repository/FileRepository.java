@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface FileRepository<T> {
 
-    void close() throws IOException;
+    void close(String filename) throws IOException;
 }

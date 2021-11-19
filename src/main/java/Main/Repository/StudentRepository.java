@@ -18,10 +18,10 @@ public class StudentRepository extends InMemoryRepository<Student> implements Fi
     /**
      * Constructor for StudentRepository objects
      */
-    public StudentRepository(CourseRepository courseRepository) throws IOException {
+    public StudentRepository(CourseRepository courseRepository,String filename) throws IOException {
         super();
 
-        BufferedReader fixReader = new BufferedReader(new FileReader("studentData.json"));
+        BufferedReader fixReader = new BufferedReader(new FileReader(filename));
 
         String line = fixReader.readLine().replace("\\","");
 
@@ -31,11 +31,11 @@ public class StudentRepository extends InMemoryRepository<Student> implements Fi
         stringBuilder.replace(0,1,"[");
         stringBuilder.replace(line.length()-2,line.length(),"]");
 
-        BufferedWriter fixWriter = new BufferedWriter(new FileWriter("studentData.json"));
+        BufferedWriter fixWriter = new BufferedWriter(new FileWriter(filename));
 
         fixWriter.write(stringBuilder.toString());
         fixWriter.close();
-        Reader studentReader = new BufferedReader(new FileReader("studentData.json"));
+        Reader studentReader = new BufferedReader(new FileReader(filename));
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode parser = objectMapper.readTree(studentReader);
 
@@ -52,7 +52,7 @@ public class StudentRepository extends InMemoryRepository<Student> implements Fi
             this.create(s);
 
         }
-        this.close();
+        this.close(filename);
     }
 
     /**
@@ -75,7 +75,7 @@ public class StudentRepository extends InMemoryRepository<Student> implements Fi
     }
 
     @Override
-    public void close() throws IOException {
+    public void close(String filename) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -90,7 +90,7 @@ public class StudentRepository extends InMemoryRepository<Student> implements Fi
 
             serializedStudent += ",";
 
-            writer.writeValue(new File("StudentData.json"),serializedStudent);
+            writer.writeValue(new File(filename),serializedStudent);
 
         }
 

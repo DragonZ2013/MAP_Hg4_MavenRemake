@@ -16,10 +16,10 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
     /**
      * Constructor for TeacherRepository Objects
      */
-    public TeacherRepository() throws IOException {
+    public TeacherRepository(String filename) throws IOException {
         super();
 
-        BufferedReader fixReader = new BufferedReader(new FileReader("teacherData.json"));
+        BufferedReader fixReader = new BufferedReader(new FileReader(filename));
 
         String line = fixReader.readLine().replace("\\","");
 
@@ -29,12 +29,12 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
         stringBuilder.replace(0,1,"[");
         stringBuilder.replace(line.length()-2,line.length(),"]");
 
-        BufferedWriter fixWriter = new BufferedWriter(new FileWriter("teacherData.json"));
+        BufferedWriter fixWriter = new BufferedWriter(new FileWriter(filename));
 
         fixWriter.write(stringBuilder.toString());
         fixWriter.close();
 
-        Reader teacherReader = new BufferedReader(new FileReader("teacherData.json"));
+        Reader teacherReader = new BufferedReader(new FileReader(filename));
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode parser = objectMapper.readTree(teacherReader);
 
@@ -42,7 +42,7 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
             Teacher t = new Teacher(n.path("firstName").asText(),n.path("lastName").asText(),new ArrayList(),n.path("teacherId").asInt());
             this.create(t);
         }
-        this.close();
+        this.close(filename);
 
     }
 
@@ -65,7 +65,7 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
     }
 
     @Override
-    public void close() throws IOException {
+    public void close(String filename) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
@@ -79,7 +79,7 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
 
             serializedTeacher += ",";
 
-            writer.writeValue(new File("TeacherData.json"),serializedTeacher);
+            writer.writeValue(new File(filename),serializedTeacher);
 
         }
     }
