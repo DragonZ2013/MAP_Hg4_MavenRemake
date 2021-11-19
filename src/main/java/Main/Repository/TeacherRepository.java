@@ -14,7 +14,9 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
 
 
     /**
-     * Constructor for TeacherRepository Objects
+     * Constructor for TeacherRepository Objects + File initializer
+     * @param filename
+     * @throws IOException
      */
     public TeacherRepository(String filename) throws IOException {
         super();
@@ -64,6 +66,11 @@ public class TeacherRepository extends InMemoryRepository<Teacher> implements Fi
         return teacherToUpdate;
     }
 
+    /**
+     * Saves the TeacherRepository at given path
+     * @param filename
+     * @throws IOException
+     */
     @Override
     public void close(String filename) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();

@@ -14,7 +14,9 @@ import java.util.ArrayList;
 public class CourseRepository extends InMemoryRepository<Course> implements FileRepository{
 
     /**
-     * Constructor for CourseRepository objects
+     * Constructor for CourseRepository Objects + File initializer
+     * @param filename
+     * @throws IOException
      */
     public CourseRepository(TeacherRepository teacherRepository,String filename) throws IOException {
         super();
@@ -71,6 +73,11 @@ public class CourseRepository extends InMemoryRepository<Course> implements File
         return courseToUpdate;
     }
 
+    /**
+     * saves the CourseRepository to given path
+     * @param filename
+     * @throws IOException
+     */
     @Override
     public void close(String filename) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();

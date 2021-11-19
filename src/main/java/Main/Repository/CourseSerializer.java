@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
 
+/**
+ * Converts course object to json format
+ */
 public class CourseSerializer extends JsonSerializer<Course> {
     @Override
     public void serialize(Course course, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {

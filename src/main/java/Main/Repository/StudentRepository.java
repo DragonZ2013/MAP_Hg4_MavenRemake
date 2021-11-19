@@ -16,7 +16,9 @@ import java.util.List;
 public class StudentRepository extends InMemoryRepository<Student> implements FileRepository{
 
     /**
-     * Constructor for StudentRepository objects
+     * Constructor for StudentRepository Objects + File initializer
+     * @param filename
+     * @throws IOException
      */
     public StudentRepository(CourseRepository courseRepository,String filename) throws IOException {
         super();
@@ -79,6 +81,11 @@ public class StudentRepository extends InMemoryRepository<Student> implements Fi
         return studentToUpdate;
     }
 
+    /**
+     * Saves the StudentRepository to given path
+     * @param filename
+     * @throws IOException
+     */
     @Override
     public void close(String filename) throws IOException {
 

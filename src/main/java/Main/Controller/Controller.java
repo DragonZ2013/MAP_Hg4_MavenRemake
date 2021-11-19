@@ -20,12 +20,26 @@ public class Controller {
     CourseRepository cr;
     StudentRepository sr;
 
+    /**
+     * Constructor for controller objects
+     * @param cr
+     * @param tr
+     * @param sr
+     * @throws IOException
+     */
     public Controller(CourseRepository cr, TeacherRepository tr, StudentRepository sr) throws IOException {
         this.cr = cr;
         this.tr = tr;
         this.sr = sr;
     }
 
+    /**
+     * adds a teacher object to the TeacherRepository
+     * @param firstName
+     * @param lastName
+     * @param teacherId
+     * @throws ExistentIdException
+     */
     public void createTeacher(String firstName,String lastName,int teacherId) throws ExistentIdException {
         for(Teacher t: tr.getAll())
             if(t.getTeacherId()==teacherId)
@@ -34,6 +48,14 @@ public class Controller {
         tr.create(t);
     }
 
+    /**
+     * adds a student object to the StudentRepository
+     * @param firstName
+     * @param lastName
+     * @param studentId
+     * @param totalCredits
+     * @throws ExistentIdException
+     */
     public void createStudent(String firstName,String lastName,int studentId,int totalCredits) throws ExistentIdException {
         for(Student s: sr.getAll())
             if(s.getStudentId()==studentId)
@@ -43,6 +65,16 @@ public class Controller {
 
     }
 
+    /**
+     * adds a course object to the CourseRepository
+     * @param name
+     * @param teacherId
+     * @param maxEnrollment
+     * @param credits
+     * @param courseId
+     * @throws ExistentIdException
+     * @throws MissingIdException
+     */
     public void createCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws ExistentIdException, MissingIdException {
         for(Course c: cr.getAll())
             if(c.getCourseId()==courseId)
@@ -62,6 +94,13 @@ public class Controller {
     }
 
 
+    /**
+     * modifies a teacher object from the TeacherRepository
+     * @param firstName
+     * @param lastName
+     * @param teacherId
+     * @throws MissingIdException
+     */
     public void updateTeacher(String firstName,String lastName,int teacherId) throws MissingIdException {
         Teacher teacher = null;
         for(Teacher t: tr.getAll())
@@ -73,6 +112,14 @@ public class Controller {
         tr.update(t);
     }
 
+    /**
+     * Modifies a student object from the StudentRepository
+     * @param firstName
+     * @param lastName
+     * @param studentId
+     * @param totalCredits
+     * @throws MissingIdException
+     */
     public void updateStudent(String firstName,String lastName,int studentId,int totalCredits) throws MissingIdException {
         Student student = null;
         for(Student s: sr.getAll())
@@ -85,6 +132,16 @@ public class Controller {
 
     }
 
+    /**
+     * Modifies a course object from the CourseRepository
+     * @param name
+     * @param teacherId
+     * @param maxEnrollment
+     * @param credits
+     * @param courseId
+     * @throws MissingIdException
+     * @throws MaxSizeException
+     */
     public void updateCourse(String name,int teacherId,int maxEnrollment,int credits,int courseId) throws MissingIdException, MaxSizeException {
         Course course = null;
         for(Course c: cr.getAll())
@@ -110,6 +167,11 @@ public class Controller {
         cr.update(c);
     }
 
+    /**
+     * removes a course object from the CourseRepository
+     * @param courseId
+     * @throws MissingIdException
+     */
     public void deleteCourse(int courseId) throws MissingIdException {
         Course course = null;
         for(Course c: cr.getAll())
@@ -124,6 +186,11 @@ public class Controller {
         cr.delete(course);
     }
 
+    /**
+     * removes a teacher object from the teacher repository
+     * @param teacherId
+     * @throws MissingIdException
+     */
     public void deleteTeacher(int teacherId) throws MissingIdException {
         Teacher teacher = null;
         for(Teacher t: tr.getAll())
@@ -136,6 +203,11 @@ public class Controller {
         tr.delete(teacher);
     }
 
+    /**
+     * removes a student object from the StudentRepository
+     * @param studentId
+     * @throws MissingIdException
+     */
     public void deleteStudent(int studentId) throws MissingIdException {
         Student student = null;
         for(Student s: sr.getAll())
@@ -151,6 +223,13 @@ public class Controller {
         sr.delete(student);
     }
 
+    /**
+     * registers a student to a course
+     * @param studentId
+     * @param courseId
+     * @throws MissingIdException
+     * @throws MaxSizeException
+     */
     public void registerStudent(int studentId,int courseId) throws MissingIdException, MaxSizeException {
         Student student = null;
         for(Student s: sr.getAll())
@@ -248,5 +327,17 @@ public class Controller {
 
         return retList;
     }
+
+    /**
+     * Saves all repositories in their current state
+     * @throws IOException
+     */
+    public void SaveAll() throws IOException {
+        sr.close("StudentData.json");
+        cr.close("CourseData.json");
+        tr.close("TeacherData.json");
+    }
+
+
 
 }

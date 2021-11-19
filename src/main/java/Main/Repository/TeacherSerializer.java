@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Converts teacher object to json format
+ */
 public class TeacherSerializer extends JsonSerializer<Teacher> {
     @Override
     public void serialize(Teacher teacher, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {

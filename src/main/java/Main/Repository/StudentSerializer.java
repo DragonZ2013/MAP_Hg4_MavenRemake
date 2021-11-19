@@ -11,6 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentSerializer extends JsonSerializer<Student> {
+
+    /**
+     * Converts student object to json format
+     * @param student
+     * @param jsonGenerator
+     * @param serializerProvider
+     * @throws IOException
+     */
     @Override
     public void serialize(Student student, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
